@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:saveyourmoney/screens/settings/gamification.dart';
 import '../add_expense/add_expense.dart';
 import '../add_income/add_income.dart';
 import '../add_loan/add_loan.dart';
@@ -19,10 +20,12 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int index = 0;
 
+
   final List<Widget> widgetList = [
     const MainScreen(),
     const StatScreen(),
-    const FinancialGoalsGamificationPage(),
+   const MoneyTodoScreen(),
+
     const ProfileScreen(),
   ];
 
