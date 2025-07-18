@@ -2,8 +2,7 @@ import 'dart:math';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:saveyourmoney/screens/firebase/firebase_service.dart';
-
+import '../../firebase/firebase_service.dart';
 import '../../models/transaction_model.dart';
 
 enum FilterType { all, income, expense, loan }

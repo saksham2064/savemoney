@@ -1,10 +1,8 @@
 import 'dart:math';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:saveyourmoney/models/transaction_model.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:meney1/models/transaction_model.dart'; // Make sure this path is correct
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});

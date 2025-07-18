@@ -1,20 +1,13 @@
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:saveyourmoney/screens/add_expense/add_expense.dart';
-import 'package:saveyourmoney/screens/add_income/add_income.dart';
-import 'package:saveyourmoney/screens/add_loan/add_loan.dart';
-import 'package:saveyourmoney/screens/main/main_screen.dart';
-import 'package:saveyourmoney/screens/profile/profile.dart';
-import 'package:saveyourmoney/screens/settings/settings.dart';
-import 'package:saveyourmoney/screens/stats/stat_screen.dart';
-// import '../add_expense/add_expense.dart';
-// import '../add_income/add_income.dart';
-// import '../add_loan/add_loan.dart';
-// import '../main/main_screen.dart';
-// import '../stats/stat_screen.dart';
-// import '../profile/profile.dart';
-// import '../settings/settings.dart';
+import '../add_expense/add_expense.dart';
+import '../add_income/add_income.dart';
+import '../add_loan/add_loan.dart';
+import '../main/main_screen.dart';
+import '../stats/stat_screen.dart';
+import '../profile/profile.dart';
+import '../settings/settings.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -25,30 +18,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int index = 0;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   final List<Widget> widgetList = [
     const MainScreen(),
@@ -70,8 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => const AddIncomeScreen()
-                  ),
+                  MaterialPageRoute(builder: (_) => const AddIncomeScreen()),
                 );
               },
             ),
@@ -82,8 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) =>  const AddExpenseScreen()
-                  ),
+                  MaterialPageRoute(builder: (_) => const AddExpenseScreen()),
                 );
               },
             ),
@@ -94,8 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => const AddLoanScreen()
-                  ),
+                  MaterialPageRoute(builder: (_) => const AddLoanScreen()),
                 );
               },
             ),

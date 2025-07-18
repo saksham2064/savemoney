@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:saveyourmoney/models/transaction_model.dart';
-
+import '../models/transaction_model.dart';
 
 class FirebaseService {
   final CollectionReference transactionsCollection =
