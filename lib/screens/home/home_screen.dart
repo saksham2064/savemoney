@@ -22,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> widgetList = [
     const MainScreen(),
     const StatScreen(),
-    const SettingsScreen(),
+    const FinancialGoalsGamificationPage(),
     const ProfileScreen(),
   ];
 
@@ -79,24 +79,26 @@ class _HomeScreenState extends State<HomeScreen> {
         borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
         child: BottomNavigationBar(
           onTap: (value) => setState(() => index = value),
-          fixedColor: const Color.fromARGB(221, 221, 97, 97),
+          fixedColor: const Color.fromARGB(221, 227, 170, 120),
           currentIndex: index,
           backgroundColor: Colors.white,
           showSelectedLabels: false,
           showUnselectedLabels: false,
+
           elevation: 3,
           type: BottomNavigationBarType.fixed,
           items: const [
             BottomNavigationBarItem(
               icon: Icon(CupertinoIcons.home),
-              label: 'Home',
+              label: 'Home' ,
+
             ),
             BottomNavigationBarItem(
               icon: Icon(CupertinoIcons.graph_square_fill),
               label: 'Statistics',
             ),
             BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.settings),
+              icon: Icon(Icons.wallet),
               label: 'Settings',
             ),
             BottomNavigationBarItem(
@@ -115,13 +117,16 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [
-                Theme.of(context).colorScheme.primary,
-                Theme.of(context).colorScheme.secondary,
-                Theme.of(context).colorScheme.tertiary,
-              ],
-              transform: const GradientRotation(pi / 4),
-            ),
+  colors: const [
+    Color.fromARGB(255, 231, 129, 101),
+    Color.fromARGB(255, 237, 185, 51),
+    Color.fromARGB(255, 236, 199, 148),
+  ],
+  begin: Alignment.topLeft,
+  end: Alignment.bottomRight,
+)
+,
+
             shape: BoxShape.circle,
           ),
           alignment: Alignment.center,

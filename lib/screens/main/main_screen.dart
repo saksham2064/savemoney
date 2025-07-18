@@ -23,33 +23,42 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Future<void> fetchTransactions() async {
-    final snapshot = await FirebaseFirestore.instance
-        .collection('transactions')
-        .orderBy('date', descending: true)
-        .get();
+    try {
+      final snapshot = await FirebaseFirestore.instance
+          .collection('transactions')
+          .orderBy('date', descending: true)
+          .get();
 
-    double income = 0;
-    double expense = 0;
-    List<TransactionModel> all = [];
+      double income = 0;
+      double expense = 0;
+      List<TransactionModel> all = [];
 
-    for (var doc in snapshot.docs) {
-      final data = doc.data();
-      final tx = TransactionModel.fromMap({...data, 'id': doc.id});
+      for (var doc in snapshot.docs) {
+        final data = doc.data();
+        final tx = TransactionModel.fromMap({...data, 'id': doc.id});
 
-      if (tx.type == 'income') {
-        income += tx.amount;
-      } else if (tx.type == 'expense') {
-        expense += tx.amount;
+        if (tx.type == 'income') {
+          income += tx.amount;
+        } else if (tx.type == 'expense') {
+          expense += tx.amount;
+        }
+
+        all.add(tx);
       }
 
-      all.add(tx);
-    }
+      // Check if widget is still mounted before calling setState
+      if (!mounted) return;
 
-    setState(() {
-      transactions = all;
-      totalIncome = income;
-      totalExpense = expense;
-    });
+      setState(() {
+        transactions = all;
+        totalIncome = income;
+        totalExpense = expense;
+      });
+    } catch (e) {
+      // Handle errors here, e.g. show a snackbar or log
+      debugPrint('Failed to fetch transactions: $e');
+      // Optionally set error state or show something in UI
+    }
   }
 
   @override
@@ -72,20 +81,24 @@ class _MainScreenState extends State<MainScreen> {
                     children: [
                       const CircleAvatar(
                         backgroundColor: Colors.amber,
-                        child: Icon(CupertinoIcons.person_fill,
-                            color: Colors.black),
+                        child: Icon(
+                          CupertinoIcons.person_fill,
+                          color: Color.fromARGB(255, 255, 255, 255),
+                        ),
                       ),
                       const SizedBox(width: 8),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Welcome back,',
-                              style: Theme.of(context).textTheme.bodySmall),
-                          Text('User',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium
-                                  ?.copyWith(fontWeight: FontWeight.bold)),
+                          Text(
+                            'Welcome back,',
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                          Text(
+                            'User',
+                            style: Theme.of(context).textTheme.titleMedium
+                                ?.copyWith(fontWeight: FontWeight.bold),
+                          ),
                         ],
                       ),
                     ],
@@ -104,12 +117,13 @@ class _MainScreenState extends State<MainScreen> {
                 height: MediaQuery.of(context).size.height / 4,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [
-                      Theme.of(context).colorScheme.primary,
-                      Theme.of(context).colorScheme.secondary,
-                      Theme.of(context).colorScheme.tertiary,
+                    colors: const [
+                      Color.fromARGB(255, 231, 129, 101),
+                      Color.fromARGB(255, 237, 185, 51),
+                      Color.fromARGB(255, 240, 192, 125),
                     ],
-                    transform: const GradientRotation(pi / 4),
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
                   ),
                   borderRadius: BorderRadius.circular(25),
                   boxShadow: [
@@ -120,27 +134,40 @@ class _MainScreenState extends State<MainScreen> {
                     ),
                   ],
                 ),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 16,
+                ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text('Total Balance',
-                        style: TextStyle(fontSize: 16, color: Colors.white)),
+                    const Text(
+                      'Total Balance',
+                      style: TextStyle(fontSize: 16, color: Colors.white),
+                    ),
                     const SizedBox(height: 12),
-                    Text('\$ ${totalBalance.toStringAsFixed(2)}',
-                        style: const TextStyle(
-                            fontSize: 34,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white)),
+                    Text(
+                      '\RS ${totalBalance.toStringAsFixed(2)}',
+                      style: const TextStyle(
+                        fontSize: 34,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
                     const SizedBox(height: 12),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         incomeExpenseBox(
-                            Icons.arrow_downward, 'Income', totalIncome),
+                          Icons.arrow_upward,
+                          'Income',
+                          totalIncome,
+                        ),
                         incomeExpenseBox(
-                            Icons.arrow_upward, 'Expense', totalExpense),
+                          Icons.arrow_downward,
+                          'Expense',
+                          totalExpense,
+                        ),
                       ],
                     ),
                   ],
@@ -151,9 +178,10 @@ class _MainScreenState extends State<MainScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: const [
-                  Text('Recent Transactions',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                  Text(
+                    'Recent Transactions',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
                 ],
               ),
               const SizedBox(height: 12),
@@ -179,21 +207,32 @@ class _MainScreenState extends State<MainScreen> {
                                 Row(
                                   children: [
                                     const CircleAvatar(
-                                      backgroundColor: Colors.blueAccent,
-                                      child: Icon(Icons.monetization_on,
-                                          color: Colors.white),
+                                      backgroundColor: Color.fromARGB(
+                                        255,
+                                        219,
+                                        191,
+                                        32,
+                                      ),
+                                      child: Icon(
+                                        Icons.monetization_on,
+                                        color: Colors.white,
+                                      ),
                                     ),
                                     const SizedBox(width: 12),
                                     Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(tx.category,
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold)),
-                                        Text(tx.description,
-                                            style:
-                                                const TextStyle(fontSize: 12)),
+                                        Text(
+                                          tx.category,
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Text(
+                                          tx.description,
+                                          style: const TextStyle(fontSize: 16),
+                                        ),
                                       ],
                                     ),
                                   ],
@@ -213,10 +252,10 @@ class _MainScreenState extends State<MainScreen> {
                                     ),
                                     Text(
                                       tx.formattedDate(),
-                                      style: const TextStyle(fontSize: 12),
+                                      style: const TextStyle(fontSize: 14),
                                     ),
                                   ],
-                                )
+                                ),
                               ],
                             ),
                           );
@@ -235,22 +274,29 @@ class _MainScreenState extends State<MainScreen> {
       children: [
         CircleAvatar(
           backgroundColor: Colors.white,
-          radius: 14,
-          child: Icon(icon,
-              size: 16,
-              color: label == 'Income' ? Colors.green : Colors.red),
+          radius: 16,
+          child: Icon(
+            icon,
+            size: 24,
+            color: label == 'Income' ? Colors.green : Colors.red,
+          ),
         ),
         const SizedBox(width: 6),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(label,
-                style: const TextStyle(fontSize: 12, color: Colors.white)),
-            Text('\$${amount.toStringAsFixed(2)}',
-                style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white)),
+            Text(
+              label,
+              style: const TextStyle(fontSize: 16, color: Colors.white),
+            ),
+            Text(
+              'RS ${amount.toStringAsFixed(2)}',
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
           ],
         ),
       ],

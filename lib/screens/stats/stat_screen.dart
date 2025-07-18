@@ -274,7 +274,7 @@ class PieChartWidget extends StatelessWidget {
           return PieChartSectionData(
             color: colors[index],
             value: entry.value,
-            title: '${entry.key}\n\$${entry.value.toStringAsFixed(0)}',
+            title: '${entry.key}\nRS ${entry.value.toStringAsFixed(0)}',
             radius: 90,
             titleStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
             titlePositionPercentageOffset: 0.6,
